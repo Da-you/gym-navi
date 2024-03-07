@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  gym-navi-redis:
+    container_name: gym-navi-redis
+    build:
+      dockerfile: Dockerfile
+      context: ./redis
+    image: jhw3874/gym-navi-redis
+    ports:
+      - "6379:6379"
+  gym-navi-database:
+    container_name: gym-navi-database
+    build:
+      dockerfile: Dockerfile
+      context: ./database
+    image: jhw3874/gym-navi-database
+    environment:
+      - MARIADB_DATABASE=gym-navi
+      - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+    volumes:
+      - ./database/config:/etc/mysql/conf.d
+    ports:
+      - "3306:3306"
