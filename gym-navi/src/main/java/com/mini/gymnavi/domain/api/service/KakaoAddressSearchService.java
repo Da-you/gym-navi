@@ -1,6 +1,6 @@
-package com.mini.gymnavi.api.service;
+package com.mini.gymnavi.domain.api.service;
 
-import com.mini.gymnavi.api.dto.KakaoApiResponseDto;
+import com.mini.gymnavi.domain.api.dto.KakaoApiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

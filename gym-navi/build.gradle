@@ -1,6 +1,7 @@
 plugins {
+    id 'groovy' //groovy 지원
     id 'java'
-    id 'org.springframework.boot' version '3.2.3'
+    id 'org.springframework.boot' version '2.6.7'
     id 'io.spring.dependency-management' version '1.1.4'
 }
 
@@ -33,6 +34,16 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    testImplementation('org.spockframework:spock-core:2.1-groovy-3.0')
+    testImplementation('org.spockframework:spock-spring:2.1-groovy-3.0')
+
+    testImplementation 'net.bytebuddy:byte-buddy:1.12.10'
+
+    testImplementation "org.testcontainers:spock:1.19.7"
+    testImplementation "org.testcontainers:mariadb:1.19.7"
+
+
 }
 
 tasks.named('test') {
