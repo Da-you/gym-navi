@@ -8,6 +8,8 @@ import com.mini.gymnavi.domain.domain.gym.application.GymSearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,13 +24,36 @@ public class DirectionService {
     private final GymSearchService gymSearchService;
     private final DirectionRepository directionRepository;
     private final KakaoCategorySearchService kakaoCategorySearchService;
+    private final Base62Service base62Service;
+
+    private static final String DIRECTION_BASE_URL = "https://map.kakao.com/link/map/";
 
     private static final int MAX_SEARCH = 3; //최대 검색 개수
     private static final double RADIUS_KM = 10.0; // 반경
 
+    @Transactional
     public List<Direction> saveAll(List<Direction> directionList) {
         if (directionList.isEmpty()) return Collections.emptyList();
         return directionRepository.saveAll(directionList);
+    }
+
+    @Transactional(readOnly = true)
+    public String findDirectionUrlById(String encodedId) {
+
+        Long decodedId = base62Service.decodeDirectionId(encodedId);
+        Direction direction = directionRepository.findById(decodedId).orElse(null);
+
+        String params = String.join(",", direction.getTargetGymName(),
+                String.valueOf(direction.getTargetLatitude()), String.valueOf(direction.getTargetLongitude()));
+        String result = UriComponentsBuilder.fromHttpUrl(DIRECTION_BASE_URL + params)
+                .toUriString();
+
+        return result;
+    }
+
+    public Direction findById(String directId) {
+        Long id = base62Service.decodeDirectionId(directId);
+        return directionRepository.findById(id).orElse(null);
     }
 
 
@@ -58,8 +83,9 @@ public class DirectionService {
                 .limit(MAX_SEARCH)
                 .collect(Collectors.toList());
     }
+
     public List<Direction> buildDirectionListByCategoryApi(DocumentDto inputDocumentDto) {
-        if(Objects.isNull(inputDocumentDto)) return Collections.emptyList();
+        if (Objects.isNull(inputDocumentDto)) return Collections.emptyList();
 
         return kakaoCategorySearchService
                 .requestGymCategorySearch(inputDocumentDto.getLatitude(), inputDocumentDto.getLongitude(), RADIUS_KM)
