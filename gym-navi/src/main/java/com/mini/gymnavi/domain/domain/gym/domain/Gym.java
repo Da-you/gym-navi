@@ -1,6 +1,7 @@
 package com.mini.gymnavi.domain.domain.gym.domain;
 
 
+import com.mini.gymnavi.domain.model.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import javax.persistence.Id;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Gym {
+public class Gym extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,4 +26,8 @@ public class Gym {
     private String gymAddress;
     private double latitude;
     private double longitude;
+
+    public void changeGymAddress(String address) {
+        this.gymAddress = address;
+    }
 }
