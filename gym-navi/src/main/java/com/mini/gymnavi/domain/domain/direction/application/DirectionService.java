@@ -34,6 +34,7 @@ public class DirectionService {
     @Transactional
     public List<Direction> saveAll(List<Direction> directionList) {
         if (directionList.isEmpty()) return Collections.emptyList();
+        log.info("DB조회 ------------{}",directionRepository.findAll().size());
         return directionRepository.saveAll(directionList);
     }
 

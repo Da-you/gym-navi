@@ -13,7 +13,6 @@ public class Base62Service {
     private static final Base62 base62Instance = Base62.createInstance();
 
     public String encodeDirectionId(Long directId) {
-        log.info("id",directId);
         return new String(base62Instance.encode(String.valueOf(directId).getBytes()));
     }
 
