@@ -15,15 +15,21 @@ import java.util.stream.Collectors;
 public class GymSearchService {
 
     private final GymService gymService;
+    private final GymRedisService gymRedisService;
 
 
-    public List<GymDto.GymResponseDto> searchGymDtoList(){
-        return gymService.findAll().stream()
+    public List<GymDto.GymResponseDto> searchGymDtoList() {
+
+        List<GymDto.GymResponseDto> gymResponseDtos = gymRedisService.findAll();
+        if (!gymResponseDtos.isEmpty()) return gymResponseDtos;
+
+        return gymService.findAll()
+                .stream()
                 .map(entity -> convertToDto(entity))
                 .collect(Collectors.toList());
     }
 
-    private GymDto.GymResponseDto convertToDto(Gym gym){
+    private GymDto.GymResponseDto convertToDto(Gym gym) {
         return GymDto.GymResponseDto.builder()
                 .id(gym.getId())
                 .gymName(gym.getGymName())
