@@ -16,18 +16,17 @@ import org.springframework.http.HttpMethod;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class KakaoCategorySearchService {
+public class KakaoKeywordSearchService {
 
     private final UriBuilderService uriBuilderService;
     private final RestTemplate restTemplate;
     @Value("${kakao.rest.api.key}")
     private String apiKey;
 
-    private static final String PHARMACY_CATEGORY = "CT1";
 
     public KakaoApiResponseDto requestGymCategorySearch(double latitude, double longitude, double radius) {
 
-        URI uri = uriBuilderService.buildUriByCategorySearch(latitude, longitude, radius, PHARMACY_CATEGORY);
+        URI uri = uriBuilderService.buildUriByCategorySearch(latitude, longitude, radius, "헬스장");
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, "KakaoAK " + apiKey);

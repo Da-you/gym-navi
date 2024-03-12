@@ -11,7 +11,7 @@ import java.net.URI;
 public class UriBuilderService {
     private static final String ADDRESS_SEARCH_URL = "https://dapi.kakao.com/v2/local/search/address.json";
 
-    private static final String CATEGORY_SEARCH_URL = "https://dapi.kakao.com/v2/local/search/category.json";
+    private static final String KEYWORD_SEARCH_URL = "https://dapi.kakao.com/v2/local/search/keyword.json";
 
     public URI buildUri(String address) {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(ADDRESS_SEARCH_URL);
@@ -22,12 +22,12 @@ public class UriBuilderService {
         return uri;
     }
 
-    public URI buildUriByCategorySearch(double latitude, double longitude, double radius, String category) {
+    public URI buildUriByCategorySearch(double latitude, double longitude, double radius, String keyword) {
 
         double meterRadius = radius * 1000;
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(CATEGORY_SEARCH_URL);
-        uriBuilder.queryParam("category_group_code", category);
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(KEYWORD_SEARCH_URL);
+        uriBuilder.queryParam("query", keyword);
         uriBuilder.queryParam("x", longitude);
         uriBuilder.queryParam("y", latitude);
         uriBuilder.queryParam("radius", meterRadius);

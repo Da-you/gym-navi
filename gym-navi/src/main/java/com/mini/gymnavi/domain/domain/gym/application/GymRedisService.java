@@ -2,7 +2,6 @@ package com.mini.gymnavi.domain.domain.gym.application;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mini.gymnavi.domain.domain.gym.dto.GymDto;
 import com.mini.gymnavi.domain.domain.gym.dto.GymDto.GymResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

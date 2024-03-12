@@ -1,7 +1,7 @@
 package com.mini.gymnavi.domain.domain.direction.application;
 
 import com.mini.gymnavi.domain.api.dto.DocumentDto;
-import com.mini.gymnavi.domain.api.service.KakaoCategorySearchService;
+import com.mini.gymnavi.domain.api.service.KakaoKeywordSearchService;
 import com.mini.gymnavi.domain.domain.direction.domain.Direction;
 import com.mini.gymnavi.domain.domain.direction.repository.DirectionRepository;
 import com.mini.gymnavi.domain.domain.gym.application.GymSearchService;
@@ -23,13 +23,13 @@ import java.util.stream.Collectors;
 public class DirectionService {
     private final GymSearchService gymSearchService;
     private final DirectionRepository directionRepository;
-    private final KakaoCategorySearchService kakaoCategorySearchService;
+    private final KakaoKeywordSearchService kakaoKeywordSearchService;
     private final Base62Service base62Service;
 
     private static final String DIRECTION_BASE_URL = "https://map.kakao.com/link/map/";
 
-    private static final int MAX_SEARCH = 3; //최대 검색 개수
-    private static final double RADIUS_KM = 10.0; // 반경
+    private static final int MAX_SEARCH = 5; //최대 검색 개수
+    private static final double RADIUS_KM = 20.0; // 반경
 
     @Transactional
     public List<Direction> saveAll(List<Direction> directionList) {
@@ -45,8 +45,10 @@ public class DirectionService {
 
         String params = String.join(",", direction.getTargetGymName(),
                 String.valueOf(direction.getTargetLatitude()), String.valueOf(direction.getTargetLongitude()));
+
         String result = UriComponentsBuilder.fromHttpUrl(DIRECTION_BASE_URL + params)
                 .toUriString();
+        log.info("call map ------------------");
 
         return result;
     }
@@ -86,8 +88,8 @@ public class DirectionService {
 
     public List<Direction> buildDirectionListByCategoryApi(DocumentDto inputDocumentDto) {
         if (Objects.isNull(inputDocumentDto)) return Collections.emptyList();
-
-        return kakaoCategorySearchService
+        log.info("[Direction Service buildDirectionListByCategoryApi input info = {}]", inputDocumentDto.toString());
+        return kakaoKeywordSearchService
                 .requestGymCategorySearch(inputDocumentDto.getLatitude(), inputDocumentDto.getLongitude(), RADIUS_KM)
                 .getDocumentDtoList()
                 .stream().map(resultDocumentDto ->

@@ -26,6 +26,7 @@ public class GymRecommendationService {
     private final KakaoAddressSearchService kakaoAddressSearchService;
     private final DirectionService directionService;
     private final Base62Service base62Service;
+    private static final String DIRECTION_BASE_URL = "https://map.kakao.com/link/map/";
 
 
     @Value("${gym.recommendation.base.url}")
