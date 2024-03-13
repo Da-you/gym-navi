@@ -42,4 +42,8 @@
   - Base62를 통한 인코딩  
 
 
-## flow
+## example
+<img width="1300" alt="스크린샷 2024-03-13 오후 3 39 48" src="https://github.com/Da-you/gym-navi/assets/108071860/aedae02e-b4d2-4bb6-b400-19eac28fb7cf">
+<img width="1300" alt="스크린샷 2024-03-13 오후 3 40 18" src="https://github.com/Da-you/gym-navi/assets/108071860/4b6e352c-4946-4ba1-a498-2026b06e4a8d">
+
+
